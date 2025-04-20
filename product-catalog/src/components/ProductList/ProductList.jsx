@@ -56,9 +56,13 @@ function ProductList() {
                 onClick={toggleBasketMode}
                 src={basketIcon}
                 alt="Shopping basket"
-                title={basketMode ? "View basket" : "View products"}
             />
-
+            {basket.length > 0 && (
+                <div className={style.allCount}>
+                    {basket.reduce((curr, item) => curr + item.count, 0)}
+                </div>
+            )}
+            
             {basketMode ? (
                 <div className={style.productsGrid}>
                     {products.map(product => (

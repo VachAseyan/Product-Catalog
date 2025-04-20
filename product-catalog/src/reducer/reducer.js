@@ -12,7 +12,7 @@ const reducer = (state, action) => {
     } = action
     switch (type) {
         case ACTIONS.ADD_TO_BASKET: {
-            const found = state.some(item => item.id === payload.id);
+            const found = state.find(item => item.id === payload.id);
             if (!found) {
                 return [...state, {
                     ...payload,

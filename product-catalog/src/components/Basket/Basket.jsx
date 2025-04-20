@@ -16,7 +16,6 @@ function Basket({ id, count, title, image, price, category, plyusCount, minusCou
                     <button
                         className={style.quantityButton}
                         onClick={() => minusCount(id)}
-                        aria-label="Decrease quantity"
                     >
                         -
                     </button>
@@ -24,14 +23,12 @@ function Basket({ id, count, title, image, price, category, plyusCount, minusCou
                     <button
                         className={style.quantityButton}
                         onClick={() => plyusCount(id)}
-                        aria-label="Increase quantity"
                     >
                         +
                     </button>
                     <button
                         className={style.deleteButton}
                         onClick={() => deleteProd(id)}
-                        aria-label={`Remove ${title} from basket`}
                         title="Remove item"
                     >
                         Delete Product
