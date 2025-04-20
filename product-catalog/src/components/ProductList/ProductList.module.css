@@ -1,116 +1,88 @@
-.mainContainer {
+.appContainer {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    position: relative;
+    padding: 2rem 1rem;
+    font-family: 'Inter', sans-serif;
     min-height: 100vh;
 }
 
-.mainContainer h1 {
-    color: #2c3e50;
+.title {
+    font-size: 2.8rem;
+    font-weight: bold;
     text-align: center;
     margin-bottom: 2rem;
-    font-size: 2.2rem;
-    font-weight: 700;
-    padding-top: 1rem;
+    background: linear-gradient(90deg, #6366f1, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.icon {
-    width: 50px;
-    height: 50px;
+.basketIcon {
     position: fixed;
-    top: 25px;
-    right: 25px;
+    top: 24px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
     cursor: pointer;
-    z-index: 100;
-    transition: all 0.3s ease;
-    background: #3498db;
-    padding: 10px;
-    border-radius: 50%;
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    transition: transform 0.3s ease;
+    z-index: 999;
 }
 
-.icon:hover {
-    transform: scale(1.1);
-    background: #2980b9;
+.basketIcon:hover {
+    transform: scale(1.1) rotate(5deg);
 }
 
 .productsGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2.5rem;
-    padding: 1rem;
+    gap: 2rem;
 }
 
-.basketContainer {
-    background: white;
+.basketView {
+    background: #fff;
     padding: 2rem;
     border-radius: 16px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
-    margin: 2rem auto;
-    max-width: 800px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
-.totalPrice {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #2c3e50;
-    text-align: center;
-    margin: 2rem 0;
-    padding: 1.5rem;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+.totalContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
     border-radius: 12px;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.totalLabel {
+    color: #374151;
+}
+
+.totalAmount {
+    color: #10b981;
 }
 
 .basketItems {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
-    padding: 1rem;
+    gap: 1.5rem;
 }
 
 .emptyBasket {
     text-align: center;
-    padding: 3rem;
-    color: #7f8c8d;
-    font-size: 1.2rem;
+    color: #9ca3af;
+    padding: 3rem 1rem;
+    font-size: 1.25rem;
 }
 
-@media (max-width: 768px) {
-    .mainContainer {
-        padding: 1rem;
-    }
-
-    .productsGrid,
-    .basketItems {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .icon {
-        width: 45px;
-        height: 45px;
-        top: 15px;
-        right: 15px;
-    }
-
-    .totalPrice {
-        font-size: 1.5rem;
-        padding: 1rem;
-    }
+.emptyIcon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
 }
 
-@media (max-width: 480px) {
-
-    .productsGrid,
-    .basketItems {
-        grid-template-columns: 1fr;
-    }
-
-    .mainContainer h1 {
-        font-size: 1.8rem;
-        margin-bottom: 1.5rem;
-    }
+.emptyText {
+    color: #6b7280;
 }

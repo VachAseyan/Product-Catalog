@@ -1,26 +1,45 @@
-import style from "./Basket.module.css"
+import style from "./Basket.module.css";
 
 function Basket({ id, count, title, image, price, category, plyusCount, minusCount, deleteProd }) {
     return (
-        <div key={id}>
-            <div className={style.productCard}>
-                <div className={style.imageContainer}>
-                    <img src={image} alt={title} className={style.productImage} />
+        <div className={style.basketCard}>
+            <div className={style.imageSection}>
+                <img src={image} alt={title} className={style.itemImage} />
+            </div>
+            <div className={style.infoSection}>
+                <h3 className={style.itemTitle}>{title}</h3>
+                <p className={style.itemCategory}>{category}</p>
+                <div className={style.priceSection}>
+                    <span className={style.itemPrice}>${price.toFixed(2)}</span>
                 </div>
-                <div className={style.productDetails}>
-                    <h3 className={style.productTitle}>{title}</h3>
-                    <p className={style.productCategory}>{category}</p>
-                    <div className={style.priceContainer}>
-                        <span className={style.productPrice}>${price}</span>
-                    </div>
-                    <button onClick={() => plyusCount(id)}>+</button>
-                    <p>{count}</p>
-                    <button onClick={() => minusCount(id)}>-</button>
+                <div className={style.quantityControls}>
+                    <button
+                        className={style.quantityButton}
+                        onClick={() => minusCount(id)}
+                        aria-label="Decrease quantity"
+                    >
+                        -
+                    </button>
+                    <span className={style.quantity}>{count}</span>
+                    <button
+                        className={style.quantityButton}
+                        onClick={() => plyusCount(id)}
+                        aria-label="Increase quantity"
+                    >
+                        +
+                    </button>
+                    <button
+                        className={style.deleteButton}
+                        onClick={() => deleteProd(id)}
+                        aria-label={`Remove ${title} from basket`}
+                        title="Remove item"
+                    >
+                        Delete Product
+                    </button>
                 </div>
-                <button onClick={() => deleteProd(id)}>Delete</button>
             </div>
         </div>
-    )
+    );
 }
 
 export default Basket;

@@ -2,36 +2,15 @@ import { useEffect, useReducer, useState } from "react";
 import style from "./ProductList.module.css";
 import { fetchBooks } from "../../api/api";
 import Product from "../Product/Product";
-import basket from "../../assets/basket.svg"
+import basketIcon from "../../assets/basket.svg";
 import Basket from "../Basket/Basket";
-
-// const ACTIONS = {
-//     ADD_TO_BASKET: "add-to-basket"
-// };
-
-// const reducer = (state, action) => {
-//     const { type, payload } = action
-//     switch (action.type) {
-//         case ACTIONS.ADD_TO_BASKET: {
-//             const product = action.payload;
-//             const found = state.find(item => item.id === product.id);
-//             if (!found) {
-//                 return [...state, { ...product, count: 1 }];
-//             }
-//             return state.map(item => item.id === product.id
-//                     ? { ...item, count: item.count + 1 }
-//                     : item
-//             );
-//         }
-//     }
-// };
+import { ACTIONS, reducer } from "../../reducer/reducer";
 
 function ProductList() {
     const [products, setProducts] = useState([]);
-    const [basketMode, setBasketMode] = useState([])
-    const [basketProducts, setBasketProducts] = useState([])
-    const [total, setTotal] = useState(0)
-    // const [allProducts, dispatch] = useReducer(reducer, []);
+    const [basketMode, setBasketMode] = useState(true);
+    const [total, setTotal] = useState(0);
+    const [basket, dispatch] = useReducer(reducer, JSON.parse(localStorage.getItem("basket-products")) ?? []);
 
     useEffect(() => {
         fetchBooks().then(res => {
@@ -40,62 +19,42 @@ function ProductList() {
     }, []);
 
     const toggleBasketMode = () => {
-        setBasketMode(!basketMode)
-    }
+        setBasketMode(!basketMode);
+    };
 
     const addToBasket = (product) => {
-        setBasketProducts(prev => {
-            let found = prev.find(item => item.id === product.id)
-            if (!found) {
-                return [...prev, { ...product, count: 1 }]
-            } else {
-                return prev.map(item => item.id === product.id ? { ...item, count: item.count + 1 } : item)
-            }
-
-        })
-    }
+        dispatch({ type: ACTIONS.ADD_TO_BASKET, payload: { ...product } });
+    };
 
     useEffect(() => {
-        const result = localStorage.getItem("basket-products");
-        if (result) {
-            setBasketProducts(JSON.parse(result));
+        if (basket.length > 0) {
+            localStorage.setItem("basket-products", JSON.stringify(basket));
         }
-    }, []);
-
-    useEffect(() => {
-        if (basketProducts.length > 0) {
-            localStorage.setItem("basket-products", JSON.stringify(basketProducts));
-        }
-    }, [basketProducts]);
-
+    }, [basket]);
 
     const plyusCount = (id) => {
-        setBasketProducts(prev =>
-            prev.map(item => item.id === id ? { ...item, count: item.count + 1 } : item)
-        )
-    }
+        dispatch({ type: ACTIONS.PLYUS_COUNT, payload: { id } });
+    };
 
     const minusCount = (id) => {
-        setBasketProducts(prev =>
-            prev.map(item => item.id === id && item.count > 1 ? { ...item, count: item.count - 1 } : item)
-        )
-    }
+        dispatch({ type: ACTIONS.DECREMENET_COUNT, payload: { id } });
+    };
 
     const deleteProd = (id) => {
-        setBasketProducts(basketProducts.filter(prod => prod.id !== id))
-    }
+        dispatch({ type: ACTIONS.DELETE_PRODUCT, payload: { id } });
+    };
 
     useEffect(() => {
-        setTotal(basketProducts.reduce((curr, item) => curr + item.price * item.count, 0))
-    }, [basketProducts])
+        setTotal(basket.reduce((curr, item) => curr + item.price * item.count, 0));
+    }, [basket]);
+
     return (
-        <div className={style.mainContainer}>
-            <h1>Product Catalog</h1>
-            {/* <h1>{basketProducts.length}</h1> */}
+        <div className={style.appContainer}>
+            <h1 className={style.title}>Product Catalog</h1>
             <img
-                className={style.icon}
+                className={style.basketIcon}
                 onClick={toggleBasketMode}
-                src={basket}
+                src={basketIcon}
                 alt="Shopping basket"
                 title={basketMode ? "View basket" : "View products"}
             />
@@ -111,14 +70,15 @@ function ProductList() {
                     ))}
                 </div>
             ) : (
-                <div className={style.basketContainer}>
-                    <div className={style.totalPrice}>
-                        Total: ${total.toFixed(2)}
+                <div className={style.basketView}>
+                    <div className={style.totalContainer}>
+                        <h2 className={style.totalLabel}>Total:</h2>
+                        <span className={style.totalAmount}>${total.toFixed(2)}</span>
                     </div>
 
-                    {basketProducts.length > 0 ? (
+                    {basket.length > 0 ? (
                         <div className={style.basketItems}>
-                            {basketProducts.map(product => (
+                            {basket.map(product => (
                                 <Basket
                                     key={product.id}
                                     {...product}
@@ -130,7 +90,8 @@ function ProductList() {
                         </div>
                     ) : (
                         <div className={style.emptyBasket}>
-                            Your basket is empty
+                            <div className={style.emptyIcon}>🛒</div>
+                            <p className={style.emptyText}>Your basket is empty</p>
                         </div>
                     )}
                 </div>
