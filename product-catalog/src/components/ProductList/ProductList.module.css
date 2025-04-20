@@ -1,0 +1,122 @@
+/* Main container styles */
+.mainContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Header styles */
+.mainContainer h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.2rem;
+    font-weight: 700;
+    padding-top: 1rem;
+}
+
+/* Basket icon styles */
+.icon {
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.3s ease;
+    background: #3498db;
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.icon:hover {
+    transform: scale(1.1);
+    background: #2980b9;
+}
+
+/* Products grid layout */
+.productsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2.5rem;
+    padding: 1rem;
+}
+
+/* Basket view styles */
+.basketContainer {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    margin: 2rem auto;
+    max-width: 800px;
+}
+
+.totalPrice {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2c3e50;
+    text-align: center;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.basketItems {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.emptyBasket {
+    text-align: center;
+    padding: 3rem;
+    color: #7f8c8d;
+    font-size: 1.2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .mainContainer {
+        padding: 1rem;
+    }
+
+    .productsGrid,
+    .basketItems {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .icon {
+        width: 45px;
+        height: 45px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .totalPrice {
+        font-size: 1.5rem;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .productsGrid,
+    .basketItems {
+        grid-template-columns: 1fr;
+    }
+
+    .mainContainer h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+}
