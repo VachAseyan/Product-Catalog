@@ -1,4 +1,4 @@
-/* Main product card container */
+
 .productCard {
     width: 100%;
     background: #ffffff;
@@ -17,7 +17,6 @@
     border-color: #3498db;
 }
 
-/* Image container */
 .imageContainer {
     height: 180px;
     width: 100%;
@@ -40,7 +39,6 @@
     transform: scale(1.05);
 }
 
-/* Product details section */
 .productDetails {
     padding: 1.2rem;
     display: flex;
@@ -69,7 +67,6 @@
     text-transform: capitalize;
 }
 
-/* Price styling */
 .priceContainer {
     margin-top: auto;
     display: flex;

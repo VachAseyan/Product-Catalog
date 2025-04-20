@@ -1,6 +1,6 @@
 import style from "./Basket.module.css"
 
-function Basket({ id, count, title, image, price, category, plyusCount, minusCount }) {
+function Basket({ id, count, title, image, price, category, plyusCount, minusCount, deleteProd }) {
     return (
         <div key={id}>
             <div className={style.productCard}>
@@ -17,6 +17,7 @@ function Basket({ id, count, title, image, price, category, plyusCount, minusCou
                     <p>{count}</p>
                     <button onClick={() => minusCount(id)}>-</button>
                 </div>
+                <button onClick={() => deleteProd(id)}>Delete</button>
             </div>
         </div>
     )

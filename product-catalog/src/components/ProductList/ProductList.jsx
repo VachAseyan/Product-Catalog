@@ -55,6 +55,20 @@ function ProductList() {
         })
     }
 
+    useEffect(() => {
+        const result = localStorage.getItem("basket-products");
+        if (result) {
+            setBasketProducts(JSON.parse(result));
+        }
+    }, []);
+
+    useEffect(() => {
+        if (basketProducts.length > 0) {
+            localStorage.setItem("basket-products", JSON.stringify(basketProducts));
+        }
+    }, [basketProducts]);
+
+
     const plyusCount = (id) => {
         setBasketProducts(prev =>
             prev.map(item => item.id === id ? { ...item, count: item.count + 1 } : item)
@@ -67,13 +81,17 @@ function ProductList() {
         )
     }
 
+    const deleteProd = (id) => {
+        setBasketProducts(basketProducts.filter(prod => prod.id !== id))
+    }
+
     useEffect(() => {
         setTotal(basketProducts.reduce((curr, item) => curr + item.price * item.count, 0))
     }, [basketProducts])
-
     return (
         <div className={style.mainContainer}>
             <h1>Product Catalog</h1>
+            {/* <h1>{basketProducts.length}</h1> */}
             <img
                 className={style.icon}
                 onClick={toggleBasketMode}
@@ -106,6 +124,7 @@ function ProductList() {
                                     {...product}
                                     plyusCount={plyusCount}
                                     minusCount={minusCount}
+                                    deleteProd={deleteProd}
                                 />
                             ))}
                         </div>
