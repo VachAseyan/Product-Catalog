@@ -1,39 +1,30 @@
-import { useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { BasketContext } from "../BasketContext";
+import { ACTIONS } from "../../reducer/reducer";
 import style from "./ProductList.module.css";
 import { fetchBooks } from "../../api/api";
 import Product from "../Product/Product";
-import basketIcon from "../../assets/basket.svg";
 import Basket from "../Basket/Basket";
-import { ACTIONS, reducer } from "../../reducer/reducer";
+import basketIcon from "../../assets/basket.svg";
 
 function ProductList() {
     const [products, setProducts] = useState([]);
     const [basketMode, setBasketMode] = useState(true);
     const [total, setTotal] = useState(0);
-    const [basket, dispatch] = useReducer(reducer, JSON.parse(localStorage.getItem("basket-products")) ?? []);
+
+    const { basket, dispatch } = useContext(BasketContext);
 
     useEffect(() => {
-        fetchBooks().then(res => {
-            setProducts(res);
-        });
+        fetchBooks().then(setProducts);
     }, []);
 
     const toggleBasketMode = () => {
-        setBasketMode(!basketMode);
+        setBasketMode(prev => !prev);
     };
 
     const addToBasket = (product) => {
         dispatch({ type: ACTIONS.ADD_TO_BASKET, payload: { ...product } });
     };
-
-    useEffect(() => {
-        if (basket.length > 0) {
-            localStorage.setItem("basket-products", JSON.stringify(basket));
-        } else {
-            localStorage.removeItem("basket-products");
-        }
-    }, [basket]);
-
 
     const plyusCount = (id) => {
         dispatch({ type: ACTIONS.PLYUS_COUNT, payload: { id } });
@@ -65,7 +56,6 @@ function ProductList() {
                     {basket.reduce((curr, item) => curr + item.count, 0)}
                 </div>
             )}
-
             {basketMode ? (
                 <div className={style.productsGrid}>
                     {products.map(product => (
@@ -82,7 +72,6 @@ function ProductList() {
                         <h2 className={style.totalLabel}>Total:</h2>
                         <span className={style.totalAmount}>${total.toFixed(2)}</span>
                     </div>
-
                     {basket.length > 0 ? (
                         <div className={style.basketItems}>
                             {basket.map(product => (
