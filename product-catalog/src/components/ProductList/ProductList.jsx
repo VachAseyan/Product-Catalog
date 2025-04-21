@@ -29,8 +29,11 @@ function ProductList() {
     useEffect(() => {
         if (basket.length > 0) {
             localStorage.setItem("basket-products", JSON.stringify(basket));
+        } else {
+            localStorage.removeItem("basket-products");
         }
     }, [basket]);
+
 
     const plyusCount = (id) => {
         dispatch({ type: ACTIONS.PLYUS_COUNT, payload: { id } });
@@ -62,7 +65,7 @@ function ProductList() {
                     {basket.reduce((curr, item) => curr + item.count, 0)}
                 </div>
             )}
-            
+
             {basketMode ? (
                 <div className={style.productsGrid}>
                     {products.map(product => (
