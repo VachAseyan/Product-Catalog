@@ -1,6 +1,22 @@
+import { useContext } from "react";
+import { ACTIONS, BasketDispatchContext } from "../BasketContext";
 import style from "./Basket.module.css";
 
-function Basket({ id, count, title, image, price, category, plyusCount, minusCount, deleteProd }) {
+function Basket({ id, count, title, image, price, category }) {
+
+    const dispatch = useContext(BasketDispatchContext)
+
+    const plyusCount = () => {
+        dispatch({ type: ACTIONS.PLYUS_COUNT, payload: { id } });
+    };
+
+    const minusCount = () => {
+        dispatch({ type: ACTIONS.DECREMENT_COUNT, payload: { id } });
+    };
+
+    const deleteProd = () => {
+        dispatch({ type: ACTIONS.DELETE_PRODUCT, payload: { id } });
+    };
     return (
         <div className={style.basketCard}>
             <div className={style.imageSection}>
@@ -15,20 +31,20 @@ function Basket({ id, count, title, image, price, category, plyusCount, minusCou
                 <div className={style.quantityControls}>
                     <button
                         className={style.quantityButton}
-                        onClick={() => minusCount(id)}
+                        onClick={minusCount}
                     >
                         -
                     </button>
                     <span className={style.quantity}>{count}</span>
                     <button
                         className={style.quantityButton}
-                        onClick={() => plyusCount(id)}
+                        onClick={plyusCount}
                     >
                         +
                     </button>
                     <button
                         className={style.deleteButton}
-                        onClick={() => deleteProd(id)}
+                        onClick={deleteProd}
                         title="Remove item"
                     >
                         Delete Product

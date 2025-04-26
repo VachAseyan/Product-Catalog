@@ -1,6 +1,14 @@
+import { useContext } from "react";
+import { ACTIONS, BasketDispatchContext } from "../BasketContext";
 import style from "./Product.module.css";
 
-function Product({ id, title, price, category, image, addToBasket }) {
+function Product({ id, title, price, category, image }) {
+
+    const dispatch = useContext(BasketDispatchContext)
+    const addToBasket = () => {
+        dispatch({ type: ACTIONS.ADD_TO_BASKET, payload: { id, title, price, category, image } });
+    };
+
     return (
         <div className={style.productCard}>
             <div className={style.imageWrapper}>
@@ -13,7 +21,7 @@ function Product({ id, title, price, category, image, addToBasket }) {
                     <span className={style.price}>${price}</span>
                     <button
                         className={style.addButton}
-                        onClick={() => addToBasket({ id, title, price, category, image })}
+                        onClick={addToBasket}
                     >
                         Add to Cart
                     </button>

@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { BasketContext } from "../BasketContext";
-import { ACTIONS } from "../../reducer/reducer";
+import { BasketContext, BasketDispatchContext } from "../BasketContext";
 import style from "./ProductList.module.css";
 import { fetchBooks } from "../../api/api";
 import Product from "../Product/Product";
@@ -12,30 +11,14 @@ function ProductList() {
     const [basketMode, setBasketMode] = useState(true);
     const [total, setTotal] = useState(0);
 
-    const { basket, dispatch } = useContext(BasketContext);
+    const basket = useContext(BasketContext);
 
     useEffect(() => {
         fetchBooks().then(setProducts);
     }, []);
 
     const toggleBasketMode = () => {
-        setBasketMode(prev => !prev);
-    };
-
-    const addToBasket = (product) => {
-        dispatch({ type: ACTIONS.ADD_TO_BASKET, payload: { ...product } });
-    };
-
-    const plyusCount = (id) => {
-        dispatch({ type: ACTIONS.PLYUS_COUNT, payload: { id } });
-    };
-
-    const minusCount = (id) => {
-        dispatch({ type: ACTIONS.DECREMENET_COUNT, payload: { id } });
-    };
-
-    const deleteProd = (id) => {
-        dispatch({ type: ACTIONS.DELETE_PRODUCT, payload: { id } });
+        setBasketMode(!basketMode);
     };
 
     useEffect(() => {
@@ -61,8 +44,11 @@ function ProductList() {
                     {products.map(product => (
                         <Product
                             key={product.id}
-                            {...product}
-                            addToBasket={addToBasket}
+                            id={product.id}
+                            title={product.title}
+                            price={product.price}
+                            category={product.category}
+                            image={product.image}
                         />
                     ))}
                 </div>
@@ -77,10 +63,13 @@ function ProductList() {
                             {basket.map(product => (
                                 <Basket
                                     key={product.id}
-                                    {...product}
-                                    plyusCount={plyusCount}
-                                    minusCount={minusCount}
-                                    deleteProd={deleteProd}
+                                    id={product.id}
+                                    title={product.title}
+                                    price={product.price}
+                                    category={product.category}
+                                    image={product.image}
+                                    count={product.count}
+
                                 />
                             ))}
                         </div>
